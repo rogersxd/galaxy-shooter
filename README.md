@@ -12,7 +12,7 @@ The course is not only "copy and paste", but it explains in depth the tools of U
 - Input Control
 - Physics 2D
 - Animation
-- Colission
+- Collision
 
 ### Note
 
