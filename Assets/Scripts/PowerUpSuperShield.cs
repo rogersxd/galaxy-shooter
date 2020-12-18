@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpSuperSpeed : MonoBehaviour
+public class PowerUpSuperShield : MonoBehaviour
 {
     private float speed = 0.5f;
 
@@ -28,7 +28,7 @@ public class PowerUpSuperSpeed : MonoBehaviour
             return;
         }
 
-        player.SuperSpeedOn();
+        player.SuperShieldOn();
 
         Destroy(this.gameObject);
     }

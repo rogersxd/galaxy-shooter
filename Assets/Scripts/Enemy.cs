@@ -10,10 +10,12 @@ public class Enemy : MonoBehaviour
 
     public GameObject enemyExplosionPrefab;
 
+    private UIManager _uiManager;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     // Update is called once per frame
@@ -34,7 +36,7 @@ public class Enemy : MonoBehaviour
         if (laser)
         {
             Destroy(laser);
-            checkDamage();
+            Damage();
         }
 
 
@@ -42,26 +44,26 @@ public class Enemy : MonoBehaviour
 
         if (player)
         {
-            Instantiate(enemyExplosionPrefab, transform.position, Quaternion.identity);
-            Destroy(player);
+            PullDown();
         }
     }
 
-    private void checkDamage()
+    private void Damage()
     {
-        Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-
-        player.score++;
-
         healthPoints --;
 
         if (healthPoints <= 0)
         {
-            player.score += 5;
-
-            Instantiate(enemyExplosionPrefab, transform.position, Quaternion.identity);
-
-            Destroy(this.gameObject);
+            PullDown();
         }
+    }
+
+    public void PullDown()
+    {
+        _uiManager.UpdateScore(5);
+
+        Instantiate(enemyExplosionPrefab, transform.position, Quaternion.identity);
+
+        Destroy(this.gameObject);
     }
 }

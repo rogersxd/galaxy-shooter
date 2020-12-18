@@ -23,6 +23,11 @@ public class PowerUpTripleShoot : MonoBehaviour
     {
         Player player = collision.GetComponent<Player>();
 
+        if (!player)
+        {
+            return;
+        }
+
         player.TripleShootOn();
 
         Destroy(this.gameObject);

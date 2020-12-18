@@ -10,27 +10,28 @@ public class Player : MonoBehaviour
     public float verticalInput;
 
     public GameObject laserPrefab;
-    public GameObject powerUpTripleShoot;
-    public GameObject powerUpSuperSpeed;
-
+    public GameObject shieldGameObject;
     public GameObject playerExplosionPrefab;
 
     public bool canTripleShoot = false;
+    public bool shield = false;
 
     public float fireRate = 0.25f;
     private float nextFireTime = 0.0f;
 
-    public int score = 0;
-    public int scoreRatePowerUp = 50;
-    private int nextScorePowerUp = 0;
+    private int lives = 3;
+
+    private UIManager _uiManager;
 
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("START GAME");
-        
-        nextScorePowerUp += scoreRatePowerUp;
+
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        _uiManager.UpdateLives(lives);
     }
 
     // Update is called once per frame
@@ -39,7 +40,6 @@ public class Player : MonoBehaviour
         Collide();
         Movement();
         Fire();
-        Score();
     }
 
     private void Collide()
@@ -106,25 +106,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Score()
-    {
-        if (score >= nextScorePowerUp)
-        {
-            CreatePowerUp();
-            nextScorePowerUp = score + scoreRatePowerUp;
-        }
-    }
-
-    private void CreatePowerUp()
-    {
-        if (Random.Range(0.0f, 1.0f) > 0.5)
-        {
-            Instantiate(powerUpTripleShoot, new Vector3(Random.Range(-7.73f, 7.73f), 6.60f, 0), Quaternion.identity);
-        }
-
-        Instantiate(powerUpSuperSpeed, new Vector3(Random.Range(-7.73f, 7.73f), 6.60f, 0), Quaternion.identity);
-    }
-
     public void TripleShootOn()
     {
         canTripleShoot = true;
@@ -137,22 +118,57 @@ public class Player : MonoBehaviour
         StartCoroutine(PowerUpCoolDown());
     }
 
+    public void SuperShieldOn()
+    {
+        shield = true;
+
+        shieldGameObject.SetActive(true);
+
+        StartCoroutine(PowerUpCoolDown());
+    }
+
     public IEnumerator PowerUpCoolDown()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(30.0f);
 
         canTripleShoot = false;
+        shield = false;
         speed = 5.0f;
+
+        shieldGameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (shield)
+        {
+            return;
+        }
+
         Enemy enemy = collision.GetComponent<Enemy>();
 
         if (enemy)
         {
-            Instantiate(playerExplosionPrefab, transform.position, Quaternion.identity);
-            Destroy(this.gameObject);
+            Damage();
         }
+    }
+
+    void Damage()
+    {
+        lives--;
+
+        if (lives < 0)
+        {
+            PullDown();
+        }
+
+        _uiManager.UpdateLives(lives);
+    }
+
+    public void PullDown()
+    {
+        Instantiate(playerExplosionPrefab, transform.position, Quaternion.identity);
+
+        transform.position = new Vector3(0.02f, -4.09f, 0);
     }
 }

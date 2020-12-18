@@ -35,6 +35,17 @@ public class Laser : MonoBehaviour
     //EVENTS
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        PowerUpTripleShoot powerUpTripleShoot = GetComponent<PowerUpTripleShoot>();
+        PowerUpSuperSpeed powerUpSuperSpeed = GetComponent<PowerUpSuperSpeed>();
+        PowerUpSuperShield powerUpSuperShield = GetComponent<PowerUpSuperShield>();
+
+        if (powerUpTripleShoot
+            || powerUpSuperSpeed
+            || powerUpSuperShield)
+        {
+            return;
+        }
+
         Destroy(this.gameObject);
     }
 }
