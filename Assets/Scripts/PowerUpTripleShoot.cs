@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class PowerUpTripleShoot : MonoBehaviour
 {
-    private float speed = 0.5f;
+    private float _speed = 0.5f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * speed * Time.deltaTime);
+        transform.Translate(Vector3.down * _speed * Time.deltaTime);
     }
 
     //EVENTS
