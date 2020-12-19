@@ -6,7 +6,8 @@ public class PowerUpSuperSpeed : MonoBehaviour
 {
     private float _speed = 0.5f;
 
-    
+    [SerializeField]
+    private AudioClip _audioClip;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,8 @@ public class PowerUpSuperSpeed : MonoBehaviour
         {
             return;
         }
+
+        AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position);
 
         player.SuperSpeedOn();
 

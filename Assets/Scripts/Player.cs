@@ -4,27 +4,23 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed = 5.0f;
-
-    public float horizontalInput;
-    public float verticalInput;
-
     public GameObject laserPrefab;
     public GameObject shieldGameObject;
     public GameObject playerExplosionPrefab;
+    public GameObject thrusterPrefab;
 
+    private UIManager _uiManager;
+    private AudioSource _laserAudio;
+
+    public float speed = 5.0f;
+    public float horizontalInput;
+    public float verticalInput;
     public bool canTripleShoot = false;
     public bool shield = false;
 
-    public float fireRate = 0.25f;
-    private float nextFireTime = 0.0f;
-
+    private float _fireRate = 0.10f;
+    private float _nextFireTime = 0.0f;
     private int lives = 3;
-
-    private UIManager _uiManager;
-
-    private AudioSource _laserAudio;
-
 
     // Start is called before the first frame update
     void Start()
@@ -79,13 +75,21 @@ public class Player : MonoBehaviour
         verticalInput = Input.GetAxis("Vertical");
 
         transform.Translate(Vector3.up * speed * verticalInput * Time.deltaTime);
+
+        if (verticalInput > 0.0f)
+        {
+            thrusterPrefab.SetActive(true);
+            return;
+        }
+
+        thrusterPrefab.SetActive(false);
     }
 
     private void Fire()
     {
         if (canTripleShoot 
             && Input.GetMouseButton(0)
-            && Time.time > nextFireTime)
+            && Time.time > _nextFireTime)
         {
             Vector3 firstShoot = transform.position;
             firstShoot.x -= 0.5f;
@@ -97,18 +101,18 @@ public class Player : MonoBehaviour
             Instantiate(laserPrefab, transform.position, Quaternion.identity);
             Instantiate(laserPrefab, thirdShoot, Quaternion.identity);
 
-            nextFireTime = Time.time + fireRate;
+            _nextFireTime = Time.time + _fireRate;
 
             _laserAudio.Play();
 
             return;
         }
 
-        if (Input.GetMouseButton(0) && Time.time > nextFireTime)
+        if (Input.GetMouseButton(0) && Time.time > _nextFireTime)
         {
             Instantiate(laserPrefab, transform.position, Quaternion.identity);
 
-            nextFireTime = Time.time + fireRate;
+            _nextFireTime = Time.time + _fireRate;
 
             _laserAudio.Play();
         }
