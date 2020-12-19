@@ -14,8 +14,6 @@ The course is not only "copy and paste", but it explains in depth the tools of U
 - Animation
 - Collision
 
-### Note
+### Free play
 
-I uploaded the build file so that you can test the game easily, it is not a good practice if you want to make your games professionally.
-
-Download and Test the game!
+https://galaxy-shooter.000webhostapp.com
