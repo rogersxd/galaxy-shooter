@@ -10,6 +10,7 @@ The course is not only "copy and paste", but it explains in depth the tools of U
 ### Main Learning
 - Movements
 - Input Control
+- UI
 - Physics 2D
 - Animation
 - Collision
