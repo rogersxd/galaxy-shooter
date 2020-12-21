@@ -13,6 +13,8 @@ The course is not only "copy and paste", but it explains in depth the tools of U
 - Physics 2D
 - Animation
 - Collision
+- FX Effects
+- Post Processing
 
 ### Free play
 
